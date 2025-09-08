@@ -1,172 +1,188 @@
-import React, { useState } from "react";
-import { X, Package } from "lucide-react";
+study this. make it responsive. it is a dashboard. now it is ohk for large screens. now i want it to be ohk for moblie screens also. that is the harmburger is in the header and open the slidebar ontop of the screen live a navbar for smaller screen. u umderstand the logic. the large screen is perfectly ohk so do not chnage that. import React, { useState } from "react";
+import { MapPin, ChevronDown } from "lucide-react";
 
-export default function ShoppingCart() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Brake Pads – Toyota Corolla 2014-201",
-      code: "BRK-PRD-001",
-      quantity: 1,
-      price: 18500,
-    },
-    {
-      id: 2,
-      name: "Brake Pads – Toyota Corolla 2014-201",
-      code: "BRK-PRD-001",
-      quantity: 1,
-      price: 18500,
-    },
-  ]);
+const Header = () => {
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
 
-  const [searchPhone, setSearchPhone] = useState("");
-
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
-
-  const clearAll = () => {
-    setCartItems([]);
-  };
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const vatRate = 0.075;
-  const vat = subtotal * vatRate;
-  const total = subtotal + vat;
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
-      minimumFractionDigits: 0,
-    })
-      .format(price)
-      .replace("NGN", "₦");
-  };
+  // Sample location options (replace with your actual options)
+  const locationOptions = [
+    { name: "Main Store", value: "main-store" },
+    { name: "Branch A", value: "branch-a" },
+    { name: "Branch B", value: "branch-b" },
+  ];
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-semibold text-gray-800">Shopping Cart</h1>
-        <button
-          onClick={clearAll}
-          className="px-4 py-2 bg-orange-300 hover:bg-orange-400 text-white rounded-md transition-colors"
-        >
-          Clear All
-        </button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="mb-8">
-        <input
-          type="text"
-          placeholder="Search customer by Phone number"
-          value={searchPhone}
-          onChange={(e) => setSearchPhone(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
-        />
-      </div>
-
-      {/* Cart Items */}
-      <div className="space-y-4 mb-8">
-        {cartItems.map((item) => (
-          <div key={item.id} className="border border-gray-200 rounded-lg p-4">
-            <div className="flex items-start justify-between">
-              <div className="flex items-start space-x-3">
-                <div className="w-12 h-12 bg-gray-600 rounded-lg flex items-center justify-center">
-                  <Package className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-gray-800 mb-1">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">{item.code}</p>
-
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-600 mb-2">
-                      QUANTITY
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateQuantity(item.id, parseInt(e.target.value) || 1)
-                      }
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="text-right">
-                  <div className="text-lg font-semibold text-gray-800">
-                    {formatPrice(item.price * item.quantity)}
-                  </div>
-                </div>
-                <button
-                  onClick={() => removeItem(item.id)}
-                  className="w-8 h-8 bg-gray-200 hover:bg-gray-300 rounded-md flex items-center justify-center transition-colors"
-                >
-                  <X className="w-4 h-4 text-gray-600" />
-                </button>
-              </div>
-            </div>
+    <header className="bg-white sticky top-0 z-10 shadow-sm p-4 lg:p-6 flex justify-between items-center">
+      <div className="flex items-center justify-between w-full space-x-4">
+        {/* Title and Subtitle with Location Icon */}
+        <div className="bg-[#F9F9F9] border border-[#D3D3D3] rounded-lg px-4 sm:px-8 py-4 sm:py-6 max-w-[500px] w-full flex items-center space-x-3">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold text-black">
+              Dashboard
+            </h1>
+            <p className="text-sm sm:text-base text-black">
+              Welcome back! Here's your business overview.
+            </p>
           </div>
-        ))}
-      </div>
-
-      {/* Totals */}
-      {cartItems.length > 0 && (
-        <>
-          <div className="border-t border-gray-200 pt-6 space-y-3">
-            <div className="flex justify-between text-gray-600">
-              <span>{formatPrice(subtotal)}</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>VAT (7.5%)</span>
-              <span>{formatPrice(vat)}</span>
-            </div>
-            <div className="border-t border-gray-200 pt-3">
-              <div className="flex justify-between text-lg font-semibold text-gray-800">
-                <span>Total</span>
-                <span>{formatPrice(total)}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex space-x-4 mt-8">
-            <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-md font-medium transition-colors">
-              Check Out
-            </button>
-            <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-md font-medium transition-colors">
-              Save to Draft
-            </button>
-          </div>
-        </>
-      )}
-
-      {cartItems.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <Package className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-          <p>Your cart is empty</p>
         </div>
-      )}
+        <div className="flex space-x-4 items-center">
+          <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFA629]" />
+          {/* Location Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setIsLocationOpen(!isLocationOpen)}
+              className="flex items-center text-black text-medium hover:text-purple-800 bg-[#E0DFE4] border border-[#D3D3D3] rounded-lg px-3 py-2"
+            >
+              <span className="text-sm sm:text-base mr-2">Wuse Store</span>
+              <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            {isLocationOpen && (
+              <div className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-20">
+                {locationOptions.map((option) => (
+                  <button
+                    key={option.value}
+                    className="w-full text-left px-4 py-2 text-black hover:bg-purple-100 hover:text-purple-800 text-sm sm:text-base"
+                    onClick={() => {
+                      // Handle location selection (e.g., update state or context)
+                      console.log(`Selected: ${option.name}`);
+                      setIsLocationOpen(false);
+                    }}
+                  >
+                    {option.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;import React from "react";
+
+const MainContent = ({ children }) => {
+  return (
+    <main className="flex-1 p-4 lg:p-6 bg-white overflow-y-auto">
+      {children}
+    </main>
+  );
+};
+
+export default MainContent;import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import {
+  LayoutDashboard,
+  ShoppingCart,
+  FileText,
+  Search,
+  Package,
+  Users,
+  BarChart2,
+  Settings,
+} from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logo from "../assets/dashboardlogo.png";
+
+const navLinks = [
+  { name: "Dashboard", path: "/", icon: LayoutDashboard },
+  { name: "New Sales", path: "/new-sales", icon: ShoppingCart },
+  { name: "Draft", path: "/draft", icon: FileText },
+  { name: "Item Lookup", path: "/item-lookup", icon: Search },
+  { name: "Inventory", path: "/inventory", icon: Package },
+  { name: "Customer", path: "/customer", icon: Users },
+  { name: "Report", path: "/report", icon: BarChart2 },
+  { name: "Settings", path: "/settings", icon: Settings },
+];
+
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="">
+      <button
+        className="lg:hidden p-4 fixed top-0 left-0 z-20"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+      <aside
+        className={`w-64 bg-[#484C91] h-screen overflow-y-auto sticky top-0 p-4 lg:p-6 transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 transition-transform duration-300 z-10`}
+      >
+        <div className="mb-8">
+          <img src={logo} alt="Gapa Auto POS" className="h-20 w-full" />
+        </div>
+        <nav>
+          <ul className="space-y-4">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `flex items-center p-3 font-semibold text-lg rounded-sm border border-[#C6BFD8] text-[#FFFDFD]  transition-colors ${
+                      isActive && link.name !== "Dashboard"
+                        ? "bg-[#F5C82F]"
+                        : isActive && link.name === "Dashboard"
+                        ? "bg-[#F5C82F] "
+                        : ""
+                    }`
+                  }
+                >
+                  <link.icon className="w-5 h-5 mr-3" />
+                  <span>{link.name}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
     </div>
   );
-}
+};
+
+export default Sidebar;, import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import MainContent from "../components/MainContent";
+import DashboardHome from "../components/DashboardHome";
+import NewSales from "../components/NewSales";
+import Draft from "../components/Draft";
+import ItemLookup from "../components/ItemLookup";
+import Inventory from "../components/Inventory";
+import Customer from "../components/Customer";
+import Report from "../components/Report";
+import Settings from "../components/Settings";
+
+const DashboardLayout = () => {
+  return (
+    <div className="flex min-h-screen bg-white">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
+        <Header />
+
+        {/* Main Content */}
+        <MainContent>
+          <Routes>
+            <Route path="/" element={<DashboardHome />} />
+            <Route path="/new-sales" element={<NewSales />} />
+            <Route path="/draft" element={<Draft />} />
+            <Route path="/item-lookup" element={<ItemLookup />} />
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/customer" element={<Customer />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </MainContent>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardLayout;
