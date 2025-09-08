@@ -23,7 +23,7 @@ const Header = ({ toggleSidebar, isSidebarOpen, title, subtitle }) => {
         </button>
 
         {/* Title and Subtitle */}
-        <div className="bg-[#F9F9F9] border border-[#D3D3D3] rounded-lg px-3 sm:px-4 lg:px-8 py-3 sm:py-4 lg:py-6 max-w-[400px] w-full flex items-center space-x-2 sm:space-x-3">
+        <div className="bg-[#F9F9F9] border border-[#D3D3D3] rounded-lg px-3 sm:px-4 lg:px-8 py-3 sm:py-4 lg:py-6 max-w-[180px] md:max-w-[400px] w-full flex items-center space-x-2 sm:space-x-3">
           <div className="truncate">
             <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-black truncate">
               {title}
@@ -36,7 +36,7 @@ const Header = ({ toggleSidebar, isSidebarOpen, title, subtitle }) => {
 
         {/* Location Dropdown (Moved to flex-row on mobile for alignment) */}
         <div className="flex items-center space-x-2 sm:space-x-4 lg:ml-auto">
-          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#FFA629]" />
+          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 hidden sm:block text-[#FFA629]" />
           <div className="relative">
             <button
               onClick={() => setIsLocationOpen(!isLocationOpen)}

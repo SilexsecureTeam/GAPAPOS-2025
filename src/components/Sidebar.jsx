@@ -29,7 +29,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       className={`fixed top-0 left-0 h-full bg-[#484C91] overflow-y-auto p-4 lg:p-6 transition-transform duration-300 z-30
         ${
           isOpen
-            ? "translate-x-0 w-full lg:w-64"
+            ? "translate-x-0 w-64 lg:w-64"
             : "-translate-x-full w-full lg:w-64"
         }
         lg:translate-x-0 lg:sticky`}
