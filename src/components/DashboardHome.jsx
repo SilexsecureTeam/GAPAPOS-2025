@@ -12,7 +12,7 @@ import {
 
 const DashboardHome = () => {
   return (
-    <div className="bg-white min-h-screen p-4 sm:p-6">
+    <div className="bg-white min-h-screen p-4 sm:p-6 md:p-0">
       <div className="max-w-[100%] w-full mx-auto">
         {/* Header */}
         <div className="bg-[#594799] rounded-xl p-4 sm:p-6 text-white mb-6">
